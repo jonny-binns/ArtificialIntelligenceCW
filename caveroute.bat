@@ -1,3 +1,4 @@
+
 @echo off
 set STARTTIME=%TIME%
 
@@ -11,7 +12,7 @@ rem java -jar myprogram.jar %1
 
 set ENDTIME=%TIME%
 
-  
+
 
 
     rem Change formatting for the start and end times
@@ -35,5 +36,5 @@ set ENDTIME=%TIME%
 
     set DURATION=%hh%:%mm%:%ss%.%cc%
 
-    
-    echo Duration : %DURATION% 
+
+    echo Duration : %DURATION%
