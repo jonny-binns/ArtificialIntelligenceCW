@@ -7,9 +7,9 @@ rem examples are:
 rem myprogram.exe %1
 rem or
 rem java -jar myprogram.jar %1
-javac routeFinder.java %1
+rem echo %1
+javac routeFinder.java
 java routeFinder.java %1
-
 set ENDTIME=%TIME%
 
 
