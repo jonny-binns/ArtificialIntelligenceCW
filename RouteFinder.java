@@ -35,13 +35,13 @@ public class RouteFinder {
 			{
 				cavesStr = myReader.nextLine();
 			}
-			myReader.close();
+			myReader.close(); 
 
 			System.out.println(cavesStr);
 	}
 	catch (FileNotFoundException e)
 	{
-			System.out.println("Java did an o o p s i e.");
+			System.out.println("input file not found");
 			e.printStackTrace();
 	}
 		
