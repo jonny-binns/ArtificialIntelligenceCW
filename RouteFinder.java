@@ -44,8 +44,6 @@ public class RouteFinder {
 			System.out.println("input file not found");
 			e.printStackTrace();
 	}
-		
-
 	}
 
 }
