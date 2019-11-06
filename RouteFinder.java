@@ -1,3 +1,66 @@
+/* Pseudocode for project
+ * readFile
+ * caveList
+ * initcaveList
+ * lengthList
+ * initLengthList
+ * routeList
+ * orderList
+ * 
+ * startNode = caveList(0)
+ * startNode.length = 0
+ * startNode.isLengthPerm = True
+ * orderList.add(startNode)
+ * 
+ * endNode = caveList(caveList.length)
+ * caveListPos = 0
+ * while(endNode.isLengthPerm = False)
+ * {
+ * 		currentNode = caveList(caveListPos)
+ * 		connectedNodePos = 0
+ * 		while(connectedNodePos < currentNode.connectedNodes.Length)
+ * 		{
+ *			connectedNode = currentnode.connectedNodes(connectedNodePos)
+ * 			distance = calculateDistance(currentNode, connectedNode)
+ * 			if(distance < connectedNode.length)
+ * 			{
+ * 				connectedNode.length = distance
+ * 				connectedNodepos++
+ * 			}
+ * 			else
+ * 			{
+ * 				connectedNodepos++
+ * 			}
+ * 		}
+ * 		updateLengthsList()
+ * 		lengthsList(0).isLengthPerm = True
+ * 		caveListPos = lengthList(0).number
+ * 		orderList.add(lengthList(0))
+ * 		lengthsList.remove(lengthList(0))
+ * 		}
+ * 
+ * orderListPos = orderList.length
+ * routeList.add(orderList(orderListPos))
+ * 
+ * while(orderListPos >= 0)
+ * {
+ * 		x = orderListPos - 1
+ * 		if(orderList(orderListPos) - calculateDistance(orderList(orderListPos), orderList(x)) = orderList(x).length)
+ * 		{
+ * 			routes.add(orderList(x)
+ * 			orderListPos = x
+ * 		}
+ * 		else
+ * 		{
+ * 			x--
+ * 		}
+ * }	
+ * 
+ * routeList.reverse
+ * outputFile
+ * 
+ */
+
 import java.io.*;
 import java.util.Collections;
 import java.util.Scanner;
