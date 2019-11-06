@@ -62,18 +62,12 @@
  */
 
 import java.io.*;
-import java.util.Collections;
 import java.util.Scanner;
 
-public class RouteFinder {
 
-	public static void main(String[] args) {
-		
-		/**
-		 * MAKE THIS INTO FUNCTION
-		 */
-		
-		
+public class RouteFinder {
+	static String ReadFile(String fileName)
+	{
 		/** for running in cmd
 		try{
 	 			String cavesFile = args[0];
@@ -94,25 +88,49 @@ public class RouteFinder {
 				e.printStackTrace();
 		}
 		 **/
-		
-		
+		String cavesStr = "";
 		try{
-			File caves = new File("input1.cav");
-			String cavesStr = "";
+			File caves = new File(fileName);
 			Scanner myReader = new Scanner(caves);
 			while(myReader.hasNextLine())
 			{
 				cavesStr = myReader.nextLine();
 			}
 			myReader.close(); 
-
-			System.out.println(cavesStr);
 	}
 	catch (FileNotFoundException e)
 	{
 			System.out.println("input file not found");
 			e.printStackTrace();
 	}
+		return cavesStr;
+	}
+	
+	
+	static void WriteFile(String cavesStr)
+	{
+		try 
+		{
+			FileWriter writer = new FileWriter("output.txt");
+			writer.write(cavesStr);
+			writer.close();
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Error: ");
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		String fileName = "input1.cav";
+		String cavesStr = ReadFile(fileName);
+		System.out.println(cavesStr);
+		
+		
+		
+		WriteFile(cavesStr);
+		
 	}
 
 }
