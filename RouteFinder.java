@@ -5,6 +5,12 @@ import java.util.Scanner;
 public class RouteFinder {
 
 	public static void main(String[] args) {
+		
+		/**
+		 * MAKE THIS INTO FUNCTION
+		 */
+		
+		
 		/** for running in cmd
 		try{
 	 			String cavesFile = args[0];
