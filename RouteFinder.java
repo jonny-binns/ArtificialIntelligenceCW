@@ -132,7 +132,7 @@ public class RouteFinder {
 	
 	public static void main(String[] args) {
 		//take in input file and set to cavesStr
-		String fileName = "input1.cav";
+		String fileName = "input3.cav";
 		String cavesStr = ReadFile(fileName);
 		String[] cavesArr = cavesStr.split(",");
 		//System.out.println(cavesStr);
@@ -156,7 +156,7 @@ public class RouteFinder {
 		
 		//gets connected nodes and adds them to the objects
 		caveNo = 1;
-		for(int x=noOfCaves*2+1; x<cavesArr.length; x+=7)
+		for(int x=noOfCaves*2+1; x<cavesArr.length; x+=noOfCaves)
 		{
 			ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
 			for(int connectedNo=0; connectedNo<noOfCaves; connectedNo++)
