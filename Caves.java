@@ -17,4 +17,10 @@ public class Caves {
 	ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
 	double length = 0.0;
 	boolean isLengthPerm = false;
+	
+	@Override
+	public String toString()
+	{
+		return "Number = " + number + " X = " + xCoOrd + " Y = " + yCoOrd + " Connected Nodes = " + connectedNodes + " Length = " + length + " Is Length Perminant = " + isLengthPerm;
+	}
 }

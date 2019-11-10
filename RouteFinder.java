@@ -11,6 +11,7 @@
  * startNode.length = 0
  * startNode.isLengthPerm = True
  * orderList.add(startNode)
+ * lengthList.remove(startNode)
  * 
  * endNode = caveList(caveList.length)
  * caveListPos = 0
@@ -21,20 +22,27 @@
  * 		while(connectedNodePos < currentNode.connectedNodes.Length)
  * 		{
  *			connectedNode = currentnode.connectedNodes(connectedNodePos)
- * 			distance = calculateDistance(currentNode, connectedNode)
- * 			if(distance < connectedNode.length)
- * 			{
- * 				connectedNode.length = distance
- * 				connectedNodepos++
- * 			}
+ * 			if(orderList.contains(connectedNode))
+ *			{
+ *				connectedNodePos++
+ *			}
  * 			else
- * 			{
- * 				connectedNodepos++
+ * 			{	
+ *  			distance = calculateDistance(currentNode, connectedNode)
+ * 				if(distance < connectedNode.length)
+ * 				{
+ * 					connectedNode.length = distance
+ * 					connectedNodePos++
+ * 				}
+ * 				else
+ * 				{
+ * 					connectedNodePos++
+ * 				}
  * 			}
  * 		}
  * 		updateLengthsList()
  * 		lengthsList(0).isLengthPerm = True
- * 		caveListPos = lengthList(0).number
+ * 		caveListPos = lengthList(0).number - 1
  * 		orderList.add(lengthList(0))
  * 		lengthsList.remove(lengthList(0))
  * 		}
@@ -62,7 +70,7 @@
  */
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class RouteFinder {
@@ -123,14 +131,62 @@ public class RouteFinder {
 	}
 	
 	public static void main(String[] args) {
+		//take in input file and set to cavesStr
 		String fileName = "input1.cav";
 		String cavesStr = ReadFile(fileName);
-		System.out.println(cavesStr);
+		String[] cavesArr = cavesStr.split(",");
+		//System.out.println(cavesStr);
 		
+		//create and populate caveList
+		ArrayList<Caves> cavesList = new ArrayList<Caves>();
+		int noOfCaves = Integer.parseInt(cavesArr[0]);
 		
+		//creates objects and adds co-ordinates/number and adds to list
+		int caveNo = 1;
+		for(int x=1; x<=noOfCaves*2; x+=2)
+		{	
+			Caves cave = new Caves();
+			cave.xCoOrd = Integer.parseInt(cavesArr[x]);
+			cave.yCoOrd = Integer.parseInt(cavesArr[x+1]);
+			cave.number = caveNo;
+
+			cavesList.add(cave);
+			caveNo++;
+		}
 		
-		WriteFile(cavesStr);
+		//gets connected nodes and adds them to the objects
+		caveNo = 1;
+		for(int x=noOfCaves*2+1; x<cavesArr.length; x+=7)
+		{
+			ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
+			for(int connectedNo=0; connectedNo<noOfCaves; connectedNo++)
+			{
+				if(cavesArr[x+connectedNo].equals("1"))
+				{
+					connectedNodes.add(connectedNo+1);
+				}
+			}
+			Caves currentCave = cavesList.get(caveNo-1);
+			currentCave.connectedNodes = connectedNodes;
+			cavesList.remove(caveNo-1);
+			cavesList.add((caveNo-1), currentCave);
+			caveNo++;
+		}
 		
+		//sets caves lengths to max values
+		for(int x=0; x<cavesList.size(); x++)
+		{
+			Caves currentCave = cavesList.get(x);
+			currentCave.length = Double.MAX_VALUE;
+			cavesList.remove(x);
+			cavesList.add(x, currentCave);
+		}
+		
+		for(int x=0; x<cavesList.size(); x++)
+		{
+			Caves currentCave = cavesList.get(x);
+			System.out.println(currentCave.toString());
+		}
 	}
 
 }
