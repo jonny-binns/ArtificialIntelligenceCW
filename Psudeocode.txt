@@ -28,7 +28,7 @@ Pseudocode for project
 			}
  			else
  			{	
-  			distance = calculateDistance(currentNode, connectedNode)
+  				distance = calculateDistance(currentNode, connectedNode)
  				if(distance < connectedNode.length)
  				{
  					connectedNode.length = distance

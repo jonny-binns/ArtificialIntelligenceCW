@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.math.*;
 
 
 public class RouteFinder {
@@ -76,6 +77,36 @@ public class RouteFinder {
 		cavesList.add(pos, currentCave);
 	}
 	
+	static Caves GetConnectedCave(Caves parentCave, int connectedCaveNo, ArrayList<Caves> cavesList)
+	{
+		int returnCaveNo = parentCave.connectedCaves.get(connectedCaveNo);
+		Caves connectedCave = new Caves();
+		
+		for(int x=0; x<cavesList.size(); x++)
+		{
+			Caves currentCave = cavesList.get(x);
+			if(currentCave.number == returnCaveNo)
+			{
+				connectedCave = currentCave;
+			}
+		}
+		
+		return connectedCave;
+	}
+	
+	static double CalculateDistance(Caves startCave, Caves endCave)
+	{
+		double xDifference = startCave.xCoOrd - endCave.xCoOrd;
+		double xDifferenceSquared = xDifference * xDifference;
+		
+		double yDifference = startCave.yCoOrd - endCave.yCoOrd;
+		double yDifferenceSquared = yDifference * yDifference;
+		
+		double distance = Math.sqrt((xDifferenceSquared + yDifferenceSquared));
+		
+		return distance;
+	}
+	
 	public static void main(String[] args) {
 		//take in input file, set to cavesStr and convert cavesSrr to array
 		String fileName = "input1.cav";
@@ -103,16 +134,16 @@ public class RouteFinder {
 		caveNo = 1;
 		for(int x=noOfCaves*2+1; x<cavesArr.length; x+=noOfCaves)
 		{
-			ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
+			ArrayList<Integer> connectedCaves = new ArrayList<Integer>();
 			for(int connectedNo=0; connectedNo<noOfCaves; connectedNo++)
 			{
 				if(cavesArr[x+connectedNo].equals("1"))
 				{
-					connectedNodes.add(connectedNo+1);
+					connectedCaves.add(connectedNo+1);
 				}
 			}
 			Caves currentCave = cavesList.get(caveNo-1);
-			currentCave.connectedNodes = connectedNodes;
+			currentCave.connectedCaves = connectedCaves;
 			Replace(cavesList, (caveNo-1), currentCave);
 			caveNo++;
 		}
@@ -151,14 +182,39 @@ public class RouteFinder {
 		orderList.add(startCave);
 		lengthList.remove(0);
 		
-		
 		Caves endCave = cavesList.get(cavesList.size()-1);
 		int cavesListPos = 0;
-
+		
 		while(endCave.isLengthPerm == false)
 		{
-
+				Caves currentCave = cavesList.get(cavesListPos);
+				int connectedCavePos = 0;
+				
+				while(connectedCavePos < currentCave.connectedCaves.size())
+				{
+					Caves connectedCave = GetConnectedCave(currentCave, connectedCavePos, cavesList);
+					if(orderList.contains(connectedCave))
+					{
+						connectedCavePos++;
+					}
+					else
+					{
+						double distance = CalculateDistance(currentCave, connectedCave);
+						if(distance < connectedCave.length)
+						{
+							connectedCave.length = distance;
+							connectedCavePos++;
+						}
+						else
+						{
+							connectedCavePos++;
+						}
+					}
+					
+					
+				}
 		}
+		
 	}
 
 }
