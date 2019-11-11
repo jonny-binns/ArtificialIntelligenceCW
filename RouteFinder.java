@@ -1,74 +1,3 @@
-/* Pseudocode for project
- * readFile
- * caveList
- * initcaveList
- * lengthList
- * initLengthList
- * routeList
- * orderList
- * 
- * startNode = caveList(0)
- * startNode.length = 0
- * startNode.isLengthPerm = True
- * orderList.add(startNode)
- * lengthList.remove(startNode)
- * 
- * endNode = caveList(caveList.length)
- * caveListPos = 0
- * while(endNode.isLengthPerm = False)
- * {
- * 		currentNode = caveList(caveListPos)
- * 		connectedNodePos = 0
- * 		while(connectedNodePos < currentNode.connectedNodes.Length)
- * 		{
- *			connectedNode = currentnode.connectedNodes(connectedNodePos)
- * 			if(orderList.contains(connectedNode))
- *			{
- *				connectedNodePos++
- *			}
- * 			else
- * 			{	
- *  			distance = calculateDistance(currentNode, connectedNode)
- * 				if(distance < connectedNode.length)
- * 				{
- * 					connectedNode.length = distance
- * 					connectedNodePos++
- * 				}
- * 				else
- * 				{
- * 					connectedNodePos++
- * 				}
- * 			}
- * 		}
- * 		updateLengthsList()
- * 		lengthsList(0).isLengthPerm = True
- * 		caveListPos = lengthList(0).number - 1
- * 		orderList.add(lengthList(0))
- * 		lengthsList.remove(lengthList(0))
- * 		}
- * 
- * orderListPos = orderList.length
- * routeList.add(orderList(orderListPos))
- * 
- * while(orderListPos >= 0)
- * {
- * 		x = orderListPos - 1
- * 		if(orderList(orderListPos) - calculateDistance(orderList(orderListPos), orderList(x)) = orderList(x).length)
- * 		{
- * 			routes.add(orderList(x)
- * 			orderListPos = x
- * 		}
- * 		else
- * 		{
- * 			x--
- * 		}
- * }	
- * 
- * routeList.reverse
- * outputFile
- * 
- */
-
 import java.io.*;
 import java.util.*;
 
@@ -132,7 +61,7 @@ public class RouteFinder {
 	
 	public static void main(String[] args) {
 		//take in input file and set to cavesStr
-		String fileName = "input3.cav";
+		String fileName = "input1.cav";
 		String cavesStr = ReadFile(fileName);
 		String[] cavesArr = cavesStr.split(",");
 		//System.out.println(cavesStr);
