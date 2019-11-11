@@ -11,6 +11,6 @@ public class Caves {
 	@Override
 	public String toString()
 	{
-		return "Number = " + number + " X = " + xCoOrd + " Y = " + yCoOrd + " Connected Nodes = " + connectedNodes + " Length = " + length + " Is Length Perminant = " + isLengthPerm;
+		return "Cave Number = " + number + " X = " + xCoOrd + " Y = " + yCoOrd + " Connected Nodes = " + connectedNodes + " Length = " + length + " Is Length Perminant = " + isLengthPerm;
 	}
 }

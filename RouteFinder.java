@@ -25,13 +25,13 @@ public class RouteFinder {
 				e.printStackTrace();
 		}
 		 **/
-		String cavesStr = "";
+		String str = "";
 		try{
 			File caves = new File(fileName);
 			Scanner myReader = new Scanner(caves);
 			while(myReader.hasNextLine())
 			{
-				cavesStr = myReader.nextLine();
+				str = myReader.nextLine();
 			}
 			myReader.close(); 
 	}
@@ -40,16 +40,16 @@ public class RouteFinder {
 			System.out.println("input file not found");
 			e.printStackTrace();
 	}
-		return cavesStr;
+		return str;
 	}
 	
-	
-	static void WriteFile(String cavesStr)
+	//writes string to file
+	static void WriteFile(String str)
 	{
 		try 
 		{
 			FileWriter writer = new FileWriter("output.txt");
-			writer.write(cavesStr);
+			writer.write(str);
 			writer.close();
 		} 
 		catch (IOException e) 
@@ -59,18 +59,34 @@ public class RouteFinder {
 		}
 	}
 	
+	//takes in list of caves and prints it
+	static void PrintList(ArrayList<Caves> cavesList)
+	{
+		for(int x=0; x<cavesList.size(); x++)
+		{
+			Caves currentCave = cavesList.get(x);
+			System.out.println(currentCave.toString());
+		}
+	}
+	
+	//replaces list
+	static void Replace(ArrayList<Caves> cavesList, int pos, Caves currentCave)
+	{
+		cavesList.remove(pos);
+		cavesList.add(pos, currentCave);
+	}
+	
 	public static void main(String[] args) {
-		//take in input file and set to cavesStr
+		//take in input file, set to cavesStr and convert cavesSrr to array
 		String fileName = "input1.cav";
 		String cavesStr = ReadFile(fileName);
 		String[] cavesArr = cavesStr.split(",");
-		//System.out.println(cavesStr);
 		
-		//create and populate caveList
+		//create cavesList and stores the number of caves in the input file
 		ArrayList<Caves> cavesList = new ArrayList<Caves>();
 		int noOfCaves = Integer.parseInt(cavesArr[0]);
 		
-		//creates objects and adds co-ordinates/number and adds to list
+		//creates cave objects gives their co-ordinates/number and adds to cavesList
 		int caveNo = 1;
 		for(int x=1; x<=noOfCaves*2; x+=2)
 		{	
@@ -83,7 +99,7 @@ public class RouteFinder {
 			caveNo++;
 		}
 		
-		//gets connected nodes and adds them to the objects
+		//gets connected nodes and adds them to the caves in cavesList
 		caveNo = 1;
 		for(int x=noOfCaves*2+1; x<cavesArr.length; x+=noOfCaves)
 		{
@@ -97,8 +113,7 @@ public class RouteFinder {
 			}
 			Caves currentCave = cavesList.get(caveNo-1);
 			currentCave.connectedNodes = connectedNodes;
-			cavesList.remove(caveNo-1);
-			cavesList.add((caveNo-1), currentCave);
+			Replace(cavesList, (caveNo-1), currentCave);
 			caveNo++;
 		}
 		
@@ -107,14 +122,42 @@ public class RouteFinder {
 		{
 			Caves currentCave = cavesList.get(x);
 			currentCave.length = Double.MAX_VALUE;
-			cavesList.remove(x);
-			cavesList.add(x, currentCave);
+			Replace(cavesList, x, currentCave);
 		}
 		
+		
+		//create length list
+		ArrayList<Caves> lengthList = new ArrayList<Caves>();
+		
+		//Initiate lengthList
 		for(int x=0; x<cavesList.size(); x++)
 		{
 			Caves currentCave = cavesList.get(x);
-			System.out.println(currentCave.toString());
+			lengthList.add(x, currentCave);
+		}
+		
+		//create route list
+		ArrayList<Caves> routeList = new ArrayList<Caves>();
+		
+		//create order list
+		ArrayList<Caves> orderList = new ArrayList<Caves>();
+		
+		
+		//create start cave, set length 5 to 0, make length permanent, update cavesList with new cave, add to orderList and remove from lengthList 
+		Caves startCave = cavesList.get(0);
+		startCave.length = 0.0;
+		startCave.isLengthPerm = true;
+		Replace(cavesList, 0, startCave);
+		orderList.add(startCave);
+		lengthList.remove(0);
+		
+		
+		Caves endCave = cavesList.get(cavesList.size()-1);
+		int cavesListPos = 0;
+
+		while(endCave.isLengthPerm == false)
+		{
+
 		}
 	}
 
