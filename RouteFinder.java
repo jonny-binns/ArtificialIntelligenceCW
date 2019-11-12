@@ -173,7 +173,8 @@ public class RouteFinder {
 		for(int x=0; x<cavesList.size(); x++)
 		{
 			Caves currentCave = cavesList.get(x);
-			currentCave.length = Double.MAX_VALUE;
+			//currentCave.length = Double.MAX_VALUE;
+			currentCave.length = Long.MAX_VALUE;
 			Replace(cavesList, x, currentCave);
 		}
 		
@@ -197,7 +198,7 @@ public class RouteFinder {
 		
 		//create start cave, set length 5 to 0, make length permanent, update cavesList with new cave, add to orderList and remove from lengthList 
 		Caves startCave = cavesList.get(0);
-		startCave.length = 0.0;
+		startCave.length = 0;
 		startCave.isLengthPerm = true;
 		Replace(cavesList, 0, startCave);
 		orderList.add(startCave);
@@ -220,7 +221,10 @@ public class RouteFinder {
 					}
 					else
 					{
-						double distance = currentCave.length + CalculateDistance(currentCave, connectedCave);
+						double currentDistance = CalculateDistance(currentCave, connectedCave);
+						double distanceMultiple = (currentDistance * 100) + currentCave.length;
+						Long distance = (long) distanceMultiple;
+		
 						if(distance < connectedCave.length)
 						{
 							connectedCave.length = distance;
@@ -238,31 +242,27 @@ public class RouteFinder {
 				orderList.add(lengthList.get(0));
 				lengthList.remove(0);
 		}
-		System.out.println("-----Final Order List-----");
-		PrintList(orderList);
-		//System.out.println();
 		
-		
-		
-		
-		
+		System.out.println("-----Route-----");
 		int orderListPos = orderList.size()-1;
+		int x = orderListPos - 1;
 		routeList.add(orderList.get(orderListPos));
-		while(orderListPos >= 0)
+		while(orderListPos >= 0 && x>=0)
 		{
-			int x = orderListPos -1;
-			System.out.println(orderListPos);
-			if(orderList.get(orderListPos).length - CalculateDistance(orderList.get(orderListPos), orderList.get(x))== orderList.get(x).length)
+			double currentDistance = CalculateDistance(orderList.get(orderListPos), orderList.get(x));
+			double distanceMultiple = (currentDistance * 100);
+			Long distance = (long) distanceMultiple;
+			if(orderList.get(orderListPos).length - distance== orderList.get(x).length)
 			{
 				routeList.add(orderList.get(x));
 				orderListPos = x;
 			}
-			else
-			{
-				x--;
-			}
+			x--;
 		}
+		
+		Collections.reverse(routeList);
 		PrintList(routeList);
+		
 	}
 
 }

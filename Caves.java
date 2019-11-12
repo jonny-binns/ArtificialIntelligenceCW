@@ -5,7 +5,7 @@ public class Caves {
 	int xCoOrd = 0;
 	int yCoOrd = 0;
 	ArrayList<Integer> connectedCaves = new ArrayList<Integer>();
-	double length = 0.0;
+	long length = 0;
 	boolean isLengthPerm = false;
 	
 	@Override
