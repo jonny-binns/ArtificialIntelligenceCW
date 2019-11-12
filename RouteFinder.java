@@ -107,6 +107,27 @@ public class RouteFinder {
 		return distance;
 	}
 	
+
+/**	
+	static void UpdateList(ArrayList<Caves> startList)
+	{
+		ArrayList<Caves> temp = new ArrayList<Caves>();
+		Caves smallestLength = startList.get(0);
+		smallestLength.length = Double.MAX_VALUE;
+		
+		for(int x=0; x<startList.size(); x++)
+		{
+			Caves currentCave = startList.get(0);
+			if(currentCave.length < smallestLength.length)
+			{
+				temp.add(currentCave);
+			}
+			else
+				
+		}
+		
+	}
+**/	
 	public static void main(String[] args) {
 		//take in input file, set to cavesStr and convert cavesSrr to array
 		String fileName = "input1.cav";
@@ -184,7 +205,7 @@ public class RouteFinder {
 		
 		Caves endCave = cavesList.get(cavesList.size()-1);
 		int cavesListPos = 0;
-		
+
 		while(endCave.isLengthPerm == false)
 		{
 				Caves currentCave = cavesList.get(cavesListPos);
@@ -199,7 +220,7 @@ public class RouteFinder {
 					}
 					else
 					{
-						double distance = CalculateDistance(currentCave, connectedCave);
+						double distance = currentCave.length + CalculateDistance(currentCave, connectedCave);
 						if(distance < connectedCave.length)
 						{
 							connectedCave.length = distance;
@@ -210,11 +231,38 @@ public class RouteFinder {
 							connectedCavePos++;
 						}
 					}
-					
-					
 				}
+				Collections.sort(lengthList, new CompareLengths());
+				lengthList.get(0).isLengthPerm = true;
+				cavesListPos = (lengthList.get(0).number - 1);
+				orderList.add(lengthList.get(0));
+				lengthList.remove(0);
 		}
+		System.out.println("-----Final Order List-----");
+		PrintList(orderList);
+		//System.out.println();
 		
+		
+		
+		
+		
+		int orderListPos = orderList.size()-1;
+		routeList.add(orderList.get(orderListPos));
+		while(orderListPos >= 0)
+		{
+			int x = orderListPos -1;
+			System.out.println(orderListPos);
+			if(orderList.get(orderListPos).length - CalculateDistance(orderList.get(orderListPos), orderList.get(x))== orderList.get(x).length)
+			{
+				routeList.add(orderList.get(x));
+				orderListPos = x;
+			}
+			else
+			{
+				x--;
+			}
+		}
+		PrintList(routeList);
 	}
 
 }
