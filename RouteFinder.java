@@ -130,6 +130,7 @@ public class RouteFinder {
 **/	
 	public static void main(String[] args) {
 		//take in input file, set to cavesStr and convert cavesSrr to array
+		//String fileName = "generated500-3.cav";
 		String fileName = "input1.cav";
 		String cavesStr = ReadFile(fileName);
 		String[] cavesArr = cavesStr.split(",");
@@ -203,6 +204,7 @@ public class RouteFinder {
 		Replace(cavesList, 0, startCave);
 		orderList.add(startCave);
 		lengthList.remove(0);
+		//PrintList(orderList);
 		
 		Caves endCave = cavesList.get(cavesList.size()-1);
 		int cavesListPos = 0;
@@ -239,9 +241,13 @@ public class RouteFinder {
 				Collections.sort(lengthList, new CompareLengths());
 				lengthList.get(0).isLengthPerm = true;
 				cavesListPos = (lengthList.get(0).number - 1);
+				//System.out.println(lengthList.get(0));
 				orderList.add(lengthList.get(0));
 				lengthList.remove(0);
 		}
+		//System.out.println("-----Order-----");
+		//PrintList(orderList);
+		
 		
 		System.out.println("-----Route-----");
 		int orderListPos = orderList.size()-1;
