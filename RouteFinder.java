@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.math.*;
 
 
 public class RouteFinder {
@@ -108,29 +107,9 @@ public class RouteFinder {
 	}
 	
 
-/**	
-	static void UpdateList(ArrayList<Caves> startList)
-	{
-		ArrayList<Caves> temp = new ArrayList<Caves>();
-		Caves smallestLength = startList.get(0);
-		smallestLength.length = Double.MAX_VALUE;
-		
-		for(int x=0; x<startList.size(); x++)
-		{
-			Caves currentCave = startList.get(0);
-			if(currentCave.length < smallestLength.length)
-			{
-				temp.add(currentCave);
-			}
-			else
-				
-		}
-		
-	}
-**/	
 	public static void main(String[] args) {
 		//take in input file, set to cavesStr and convert cavesSrr to array
-		//String fileName = "generated500-3.cav";
+		//String fileName = "generated1000-4.cav";
 		String fileName = "input1.cav";
 		String cavesStr = ReadFile(fileName);
 		String[] cavesArr = cavesStr.split(",");
@@ -204,70 +183,104 @@ public class RouteFinder {
 		Replace(cavesList, 0, startCave);
 		orderList.add(startCave);
 		lengthList.remove(0);
-		//PrintList(orderList);
 		
+		//specifies the endCave and initialize the cavesList position counter
 		Caves endCave = cavesList.get(cavesList.size()-1);
 		int cavesListPos = 0;
 
+		//terminates when the last cave has a permanent length
 		while(endCave.isLengthPerm == false)
 		{
+				//gets a current cave and sets the counter for the connected caves to 0
 				Caves currentCave = cavesList.get(cavesListPos);
 				int connectedCavePos = 0;
-				
+				//while the connected cave list has elements
 				while(connectedCavePos < currentCave.connectedCaves.size())
 				{
+					//gets the connected cave at the specified point
 					Caves connectedCave = GetConnectedCave(currentCave, connectedCavePos, cavesList);
+					//skips if the order list already contains the connected cave
 					if(orderList.contains(connectedCave))
 					{
 						connectedCavePos++;
 					}
 					else
 					{
+						//calculates the distance and multiplies it by 100 to keep 3dp of accuracy
 						double currentDistance = CalculateDistance(currentCave, connectedCave);
-						double distanceMultiple = (currentDistance * 100) + currentCave.length;
+						double distanceMultiple = (currentDistance * 1000) + currentCave.length;
 						Long distance = (long) distanceMultiple;
-		
+						//checks if distance is the shorter than current
 						if(distance < connectedCave.length)
 						{
+							//updates distance if shorter and moves on to next cave in list
 							connectedCave.length = distance;
 							connectedCavePos++;
 						}
 						else
 						{
+							//moves to next cave in list
 							connectedCavePos++;
 						}
 					}
 				}
+				//sorts the length list by cave.length
 				Collections.sort(lengthList, new CompareLengths());
+				//makes the shortest length true (will always be the current cave
 				lengthList.get(0).isLengthPerm = true;
+				//moves to the next cave in the list
 				cavesListPos = (lengthList.get(0).number - 1);
-				//System.out.println(lengthList.get(0));
+				//adds the cave with the shortest length to the order list
 				orderList.add(lengthList.get(0));
+				//removes the cave with the shortest length from the length list
 				lengthList.remove(0);
 		}
-		//System.out.println("-----Order-----");
-		//PrintList(orderList);
 		
-		
-		System.out.println("-----Route-----");
+		//sets the order list position to the end of the list
 		int orderListPos = orderList.size()-1;
+		//sets x to be one less than the end of the list
 		int x = orderListPos - 1;
+		//adds the final cave to the route list
 		routeList.add(orderList.get(orderListPos));
-		while(orderListPos >= 0 && x>=0)
+		//initializes the output string
+		String output="";
+		//if the final cave's length wasnt changed then no route has been found
+		if(routeList.get(0).length == Long.MAX_VALUE)
 		{
-			double currentDistance = CalculateDistance(orderList.get(orderListPos), orderList.get(x));
-			double distanceMultiple = (currentDistance * 100);
-			Long distance = (long) distanceMultiple;
-			if(orderList.get(orderListPos).length - distance== orderList.get(x).length)
-			{
-				routeList.add(orderList.get(x));
-				orderListPos = x;
-			}
-			x--;
+			//if no route found sets output to 0
+			output = "0";
 		}
-		
-		Collections.reverse(routeList);
-		PrintList(routeList);
+		else
+		{
+			//breaks when we finish checking the orderList
+			while(orderListPos >= 0 && x>=0)
+			{
+				//calculates distance and converts to long
+				double currentDistance = CalculateDistance(orderList.get(orderListPos), orderList.get(x));
+				double distanceMultiple = (currentDistance * 1000);
+				Long distance = (long) distanceMultiple;
+				//if the current cave - the distance between that and cav x is true
+				if(orderList.get(orderListPos).length - distance== orderList.get(x).length)
+				{
+					//caves are connected and adds the cave x to the route list
+					routeList.add(orderList.get(x));
+					//sets the orderList position to x
+					orderListPos = x;
+				}
+				//otherwise decrease x
+				x--;
+			}
+			//reverse the routeList to start from the beginning
+			Collections.reverse(routeList);
+			
+			//loops through the final routeList, gets the caves numbers and adds them to the output string
+			for(int y=0; y<routeList.size(); y++)
+			{
+				output = output + routeList.get(y).number + " ";
+			}
+		}
+		//writes the output string to output.txt
+		WriteFile(output);
 		
 	}
 
