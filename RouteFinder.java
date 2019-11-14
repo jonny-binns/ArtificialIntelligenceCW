@@ -1,8 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-
 public class RouteFinder {
+	//reads in specified file and returns string of contents
 	static String ReadFile(String fileName)
 	{
 		/** for running in cmd
@@ -76,6 +76,7 @@ public class RouteFinder {
 		cavesList.add(pos, currentCave);
 	}
 	
+	//gets the specified connected cave from the caves list
 	static Caves GetConnectedCave(Caves parentCave, int connectedCaveNo, ArrayList<Caves> cavesList)
 	{
 		int returnCaveNo = parentCave.connectedCaves.get(connectedCaveNo);
@@ -93,6 +94,7 @@ public class RouteFinder {
 		return connectedCave;
 	}
 	
+	//calculates distance between 2 caves
 	static double CalculateDistance(Caves startCave, Caves endCave)
 	{
 		double xDifference = startCave.xCoOrd - endCave.xCoOrd;
@@ -107,10 +109,9 @@ public class RouteFinder {
 	}
 	
 
-	public static void main(String[] args) {
+public static void main(String[] args) {
 		//take in input file, set to cavesStr and convert cavesSrr to array
-		String fileName = "generated1000-1.cav";
-		//String fileName = "input1.cav";
+		String fileName = "input1.cav";
 		String cavesStr = ReadFile(fileName);
 		String[] cavesArr = cavesStr.split(",");
 		
@@ -131,49 +132,25 @@ public class RouteFinder {
 			caveNo++;
 		}
 		
-		
-		//while x<no of caves
-			//y<no of caves
-				//if x+y == 1 then cave x connected to cave y
-		
-			for(int x=0; x<noOfCaves; x++)
-			{	
-				int counter = x;
-				ArrayList<Integer> connectedCaves = new ArrayList<Integer>();
-				for(int y=0; y<noOfCaves; y++)
+		//gets connected caves and adds them to the caves in cavesList
+		for(int x=0; x<noOfCaves; x++)
+		{	
+			int counter = x;
+			ArrayList<Integer> connectedCaves = new ArrayList<Integer>();
+			for(int y=0; y<noOfCaves; y++)
+			{
+				if(cavesArr[(noOfCaves*2+1)+counter].contentEquals("1"))
 				{
-					//System.out.println(counter);
-					if(cavesArr[(noOfCaves*2+1)+counter].contentEquals("1"))
-					{
-						connectedCaves.add(y+1);
-					}
-					counter = counter + noOfCaves;
+					connectedCaves.add(y+1);
 				}
-				Caves currentCave = cavesList.get(x);
-				currentCave.connectedCaves = connectedCaves;
-				Replace(cavesList, x, currentCave);
+				counter = counter + noOfCaves;
 			}
+			Caves currentCave = cavesList.get(x);
+			currentCave.connectedCaves = connectedCaves;
+			Replace(cavesList, x, currentCave);
+		}
 		
 			
-		/**
-		//gets connected nodes and adds them to the caves in cavesList
-		caveNo = 1;
-		for(int x=noOfCaves*2+1; x<cavesArr.length; x+=noOfCaves)
-		{
-			ArrayList<Integer> connectedCaves = new ArrayList<Integer>();
-			for(int connectedNo=0; connectedNo<noOfCaves; connectedNo++)
-			{
-				if(cavesArr[x+connectedNo].equals("1"))
-				{
-					connectedCaves.add(connectedNo+1);
-				}
-			}
-			Caves currentCave = cavesList.get(caveNo-1);
-			currentCave.connectedCaves = connectedCaves;
-			Replace(cavesList, (caveNo-1), currentCave);
-			caveNo++;
-		}
-		*/
 		//sets caves lengths to max values
 		for(int x=0; x<cavesList.size(); x++)
 		{
@@ -198,12 +175,7 @@ public class RouteFinder {
 		ArrayList<Caves> routeList = new ArrayList<Caves>();
 		
 		//create order list
-		ArrayList<Caves> orderList = new ArrayList<Caves>();
-		
-		
-		//PrintList(cavesList);
-		
-		
+		ArrayList<Caves> orderList = new ArrayList<Caves>();		
 		
 	
 		//create start cave, set length 5 to 0, make length permanent, update cavesList with new cave, add to orderList and remove from lengthList 
@@ -310,8 +282,8 @@ public class RouteFinder {
 			}
 		}
 		//writes the output string to output.txt
-		//WriteFile(output);
-		System.out.println(output);
+		WriteFile(output);
+		//System.out.println(output);
 		
 	}
 
