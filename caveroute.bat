@@ -8,8 +8,8 @@ rem myprogram.exe %1
 rem or
 rem java -jar myprogram.jar %1
 rem echo %1
-javac routeFinder.java
-java routeFinder.java %1
+
+java -jar AICoursework.jar %1
 set ENDTIME=%TIME%
 
 
