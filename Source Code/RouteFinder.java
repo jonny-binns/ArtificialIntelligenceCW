@@ -26,11 +26,11 @@ public class RouteFinder {
     }
 
     //writes string to file
-    static void WriteFile(String str)
+    static void WriteFile(String str, String outputFile)
     {
         try
         {
-            FileWriter writer = new FileWriter("output.txt");
+            FileWriter writer = new FileWriter(outputFile + ".csn");
             writer.write(str);
             writer.close();
         }
@@ -264,8 +264,8 @@ public class RouteFinder {
             }
         }
         //writes the output string to output.txt
-        WriteFile(output);
-        //System.out.println(output);
+        String[] outFile = fileName.split("[.]");
+        WriteFile(output, outFile[0]);
 
     }
 

@@ -9,7 +9,7 @@ rem or
 rem java -jar myprogram.jar %1
 rem echo %1
 
-java -jar AICoursework.jar %1
+java -jar AICoursework.jar %1.cav
 set ENDTIME=%TIME%
 
 
